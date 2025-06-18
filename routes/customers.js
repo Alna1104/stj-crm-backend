@@ -2,16 +2,16 @@ const express = require("express");
 const router = express.Router();
 const Customer = require("../models/Customer");
 
-// // GET /api/customers → Returns all customers
-// router.get("/", async (req, res) => {
-//   try {
-//     const customers = await Customer.find();
-//     res.json(customers);
-//   } catch (error) {
-//     console.error("Error fetching customers:", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
+// GET /api/customers → Returns all customers
+router.get("/", async (req, res) => {
+  try {
+    const customers = await Customer.find();
+    res.json(customers);
+  } catch (error) {
+    console.error("Error fetching customers:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // POST /api/customers → Add a new customer
 router.post("/", async (req, res) => {
