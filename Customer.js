@@ -1,16 +1,37 @@
-const mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
 
-const customerSchema = new mongoose.Schema({
-  company: { type: String, required: true },
-  contact: { type: String, required: true },
-  phone: { type: String, required: true },
-  email: { type: String, required: true },
-  gst: { type: String },
-  totalEnquiries: { type: Number, default: 0 },
-  quotationsSent: { type: Number, default: 0 },
-  workOrdersCompleted: { type: Number, default: 0 },
-  lifetimeValue: { type: String, default: "₹0" },
-  status: { type: String, default: "Active" }
-}, { timestamps: true });
+// ✅ Test data
+const testCustomers = [
+  {
+    company: "Apollo Tyres",
+    contact: "Vaibhav Sharma",
+    phone: "+91 9876543210",
+    email: "vaibhav@apollo.com",
+    gst: "29ABCDE1234F2Z5",
+    totalEnquiries: 15,
+    quotationsSent: 10,
+    workOrdersCompleted: 8,
+    lifetimeValue: "₹12,50,000",
+    status: "Active"
+  },
+  {
+    company: "Bosch India",
+    contact: "Meera Nair",
+    phone: "+91 9123456780",
+    email: "meera.nair@bosch.in",
+    gst: "32AABCF1234K1Z1",
+    totalEnquiries: 25,
+    quotationsSent: 20,
+    workOrdersCompleted: 18,
+    lifetimeValue: "₹21,80,000",
+    status: "Active"
+  }
+];
 
-module.exports = mongoose.model("Customer", customerSchema);
+// 🚀 GET /api/customers
+router.get("/", (req, res) => {
+  res.json(testCustomers);
+});
+
+module.exports = router;
