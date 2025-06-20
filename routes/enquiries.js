@@ -4,17 +4,13 @@ const Enquiry = require("../models/Enquiry");
 
 router.post("/", async (req, res) => {
   try {
-    const enquiry = new Enquiry(req.body);
-    const saved = await enquiry.save();
-    res.status(201).json(saved);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    const newEnquiry = new Enquiry(req.body);
+    await newEnquiry.save();
+    res.status(201).json({ message: "Enquiry created successfully" });
+  } catch (error) {
+    console.error("Error creating enquiry:", error);
+    res.status(500).json({ error: "Failed to create enquiry" });
   }
-});
-
-router.get("/", async (req, res) => {
-  const enquiries = await Enquiry.find().sort({ createdAt: -1 });
-  res.json(enquiries);
 });
 
 module.exports = router;
