@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
-const enquirySchema = new mongoose.Schema({
-  customerName: { type: String, required: true },
-  contactInfo: { type: String },
-  requirementDescription: { type: String },
-  source: { type: String },
-  category: { type: String },
-}, { timestamps: true });
+const EnquirySchema = new mongoose.Schema({
+  customerName: String,
+  contactInfo: String,
+  requirementDescription: String,
+  source: String,
+  category: String,
+  createdAt: { type: Date, default: Date.now }
+});
 
-module.exports = mongoose.model("Enquiry", enquirySchema);
+module.exports = mongoose.model("Enquiry", EnquirySchema);
+
