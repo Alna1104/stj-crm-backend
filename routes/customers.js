@@ -9,10 +9,10 @@ router.get("/", async (req, res) => {
     // Attach enquiry count to each customer
     const customersWithCounts = await Promise.all(
       customers.map(async (customer) => {
-        const enquiryCount = await Enquiry.countDocuments({ customerId: customer._id });
+        const totalEnquiries = await Enquiry.countDocuments({ customerId: customer._id });
         return {
           ...customer.toObject(),
-          enquiryCount,
+          totalEnquiries,
         };
       })
     );
