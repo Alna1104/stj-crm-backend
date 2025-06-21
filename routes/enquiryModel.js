@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Enquiry = require("../models/Enquirymodel");
+const Enquiry = require("../models/Enquiry");
 
 // // Create new enquiry
 // router.post("/", async (req, res) => {
