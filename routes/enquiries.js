@@ -1,15 +1,16 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path");
 const router = express.Router();
 const Enquiry = require("../models/Enquiry");
 
-const storage = multer.memoryStorage(); // Replace with diskStorage or S3 if needed
+// Store file in memory (you can later modify this for S3 or other storage)
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post("/", upload.single("file"), async (req, res) => {
   try {
     const { customerId, description, quantity, type, operation } = req.body;
+
     const file = req.file;
 
     const enquiry = new Enquiry({
@@ -18,13 +19,15 @@ router.post("/", upload.single("file"), async (req, res) => {
       quantity,
       type,
       operation,
-      fileUrl: file ? file.originalname : null, // Replace with actual storage link
+      fileUrl: file ? file.originalname : null // update to actual upload URL if needed
     });
 
     await enquiry.save();
-    res.status(201).json({ message: "Enquiry created", enquiry });
+
+    res.status(201).json({ message: "Enquiry created successfully", enquiry });
   } catch (error) {
-    res.status(500).json({ error: "Failed to create enquiry", details: error });
+    console.error("Error creating enquiry:", error);
+    res.status(500).json({ error: "Failed to create enquiry" });
   }
 });
 
