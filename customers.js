@@ -2,9 +2,28 @@ const express = require("express");
 const router = express.Router();
 const Customer = require("../models/Customer");
 
+const Customer = require("../models/Customer");
+const Enquiry = require("../models/Enquiry");
+
 router.get("/", async (req, res) => {
-  const customers = await Customer.find().sort({ createdAt: -1 });
-  res.json(customers);
+  try {
+    const customers = await Customer.find().sort({ createdAt: -1 });
+
+    const customersWithCounts = await Promise.all(
+      customers.map(async (customer) => {
+        const enquiryCount = await Enquiry.countDocuments({ customerId: customer._id });
+        return {
+          ...customer.toObject(),
+          enquiryCount,
+        };
+      })
+    );
+
+    res.json(customersWithCounts);
+  } catch (err) {
+    console.error("Failed to fetch customers:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 router.post("/", async (req, res) => {
