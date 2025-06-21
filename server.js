@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/enquiries", require("./routes/enquiries"));
-app.use("/api/enquiryModel", require("./routes/enquiryModel"));
+//app.use("/api/enquiryModel", require("./routes/enquiryModel"));
 
 
 const PORT = process.env.PORT || 5000;
