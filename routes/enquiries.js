@@ -26,4 +26,14 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const enquiries = await Enquiry.find().sort({ date: -1 });
+    res.json(enquiries);
+  } catch (err) {
+    console.error("Error fetching enquiries:", err);
+    res.status(500).json({ message: "Failed to fetch enquiries" });
+  }
+});
+
 module.exports = router;
