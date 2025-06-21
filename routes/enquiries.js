@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Enquiry = require("../models/Enquiry");
 const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 const path = require("path");
 
 // Set up storage configuration
