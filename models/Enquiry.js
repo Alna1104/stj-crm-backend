@@ -1,11 +1,21 @@
 const mongoose = require("mongoose");
 
 const enquirySchema = new mongoose.Schema({
-  customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer", required: true },
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Customer",
+    required: true
+  },
   description: String,
   quantity: Number,
-  type: String,
-  operation: String,
+  type: {
+    type: String,
+    enum: ["Project", "Product"]
+  },
+  operation: {
+    type: String,
+    enum: ["Machining", "Laser Cutting"]
+  },
   fileUrl: String,
 }, { timestamps: true });
 
