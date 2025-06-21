@@ -1,33 +1,28 @@
 const express = require("express");
-const multer = require("multer");
 const router = express.Router();
 const Enquiry = require("../models/Enquiry");
 
-// Store file in memory (you can later modify this for S3 or other storage)
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
-router.post("/", upload.single("file"), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { customerId, description, quantity, type, operation } = req.body;
 
-    const file = req.file;
+    if (!customerId || !description || !quantity || !type || !operation) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
 
-    const enquiry = new Enquiry({
+    const newEnquiry = new Enquiry({
       customerId,
       description,
       quantity,
       type,
       operation,
-      fileUrl: file ? file.originalname : null // update to actual upload URL if needed
     });
 
-    await enquiry.save();
-
-    res.status(201).json({ message: "Enquiry created successfully", enquiry });
-  } catch (error) {
-    console.error("Error creating enquiry:", error);
-    res.status(500).json({ error: "Failed to create enquiry" });
+    await newEnquiry.save();
+    res.status(201).json({ message: "Enquiry created successfully" });
+  } catch (err) {
+    console.error("Error creating enquiry:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
